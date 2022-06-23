@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>垃圾就应该扔进垃圾桶里</title>
+    <style type="text/css">
+        html,body{height:100%;background: #000;}
+        h1{
+            font-size: 80px;
+            text-align: center;
+            color: #fff;
+            padding: 200px 0;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            letter-spacing: 5px;
+            line-height: 140px;
+        }
+        .lajitong-ball{
+            width: 10vh;
+            height: 10vh;
+            border-radius: 50%;
+        }
+        #ball{
+            position: absolute;
+            left: 0;
+            top: 0; 
+            z-index: 1;
+        }
+        #lajitong-box{
+            height: 40vh;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            opacity: 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        #lajitong-box .lajitong-tong{
+            height: 100%;
+        }
+        #lajitong-box .lajitong-ball{
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, 0) rotateX(-45deg);
+        }
+    </style>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(){
+            let ball = document.querySelector("#ball");
+            let h1 = document.querySelector("h1");
+            let lajitongBox = document.querySelector("#lajitong-box");
+            let xspeed = 45;
+            let yspeed = 0;
+            ball.onclick = function () {
+                clearInterval(ball.timer)
+                ball.timer = setInterval(function(){
+                    let currentLeft = ball.offsetLeft;
+                    let currentTop = ball.offsetTop;
+                    xspeed--;
+                    yspeed += 5;
+                    if(xspeed <= 0){
+                        xspeed = 0;
+                    }
+                    currentLeft += xspeed;
+                    currentTop += yspeed;
+                    if(currentTop >= window.innerHeight * 0.6){
+                        currentTop = window.innerHeight * 0.6;
+                        ball.style.display = 'none'
+                        lajitongBox.style.opacity = 1
+                        clearInterval(ball.timer);
+                        zhuzi()
+                    }
+                    ball.style.left = currentLeft + 'px';
+                    ball.style.top = currentTop + 'px';
+                }, 120)
+
+            }
+            function zhuzi (){
+                let textArr = '垃圾就应该扔进垃圾桶里!'.split('')
+                textArr.splice(2, 0, '<br/>')
+                textArr.splice(6, 0, '<br/>')
+                let idx = 0
+                let timer = setInterval(() => {
+                    idx++
+                    if (idx === textArr.length) {
+                        clearInterval(timer)
+                    }
+                    h1.innerHTML = textArr.slice(0, idx).join('')
+                }, 200)
+            }
+        })
+    </script>
+</head>
+<body>
+    <h1></h1>
+    <img src="images/01.jpg" id="ball" class="lajitong-ball"/>
+    <div id="lajitong-box">
+        <img src="images/lajitong.png" class="lajitong-tong">
+        <img src="images/01.jpg"  class="lajitong-ball"/>
+    </div>
+   
+</body>
+</html>
